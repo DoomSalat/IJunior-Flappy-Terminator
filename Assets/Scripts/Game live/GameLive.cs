@@ -2,19 +2,14 @@ using UnityEngine;
 
 public class GameLive : MonoBehaviour
 {
-	private const float scaleTimeDefault = 1;
+	private const float ScaleTimeDefault = 1;
 
-	[SerializeField] private CanvasGroup _mainGroupUI;
+	[SerializeField] private Menu _mainMenu;
 	[Space]
 	[SerializeField] private Player _player;
 	[SerializeField] private Transform _playerDefaultPosition;
 
 	public static event System.Action Restarted;
-
-	private void Start()
-	{
-		CloseMenu();
-	}
 
 	private void OnEnable()
 	{
@@ -28,10 +23,10 @@ public class GameLive : MonoBehaviour
 
 	public void StartGame()
 	{
-		CloseMenu();
+		_mainMenu.CloseMenu();
 
 		Restarted?.Invoke();
-		Time.timeScale = scaleTimeDefault;
+		Time.timeScale = ScaleTimeDefault;
 		_player.transform.position = _playerDefaultPosition.position;
 		_player.ResetState();
 	}
@@ -39,18 +34,6 @@ public class GameLive : MonoBehaviour
 	private void StopGame()
 	{
 		Time.timeScale = 0f;
-		OpenMenu();
-	}
-
-	private void OpenMenu()
-	{
-		_mainGroupUI.gameObject.SetActive(true);
-		_mainGroupUI.interactable = true;
-	}
-
-	private void CloseMenu()
-	{
-		_mainGroupUI.gameObject.SetActive(false);
-		_mainGroupUI.interactable = false;
+		_mainMenu.OpenMenu();
 	}
 }

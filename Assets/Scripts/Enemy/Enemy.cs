@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+	private const float Quad = 2;
+
 	[Required][SerializeField] private FlappyMove _flappyMove;
 	[Required][SerializeField] private Shooter _shooter;
 	[Required][SerializeField] private Vision _vision;
@@ -50,7 +52,7 @@ public class Enemy : MonoBehaviour
 		float targetHeight = ceilingDistance - _ceilingOffset;
 
 		float currentVelocityY = _flappyMove.Rigidbody.linearVelocity.y;
-		float requiredVelocity = Mathf.Sqrt(2 * Physics2D.gravity.magnitude * targetHeight);
+		float requiredVelocity = Mathf.Sqrt(Quad * Physics2D.gravity.magnitude * targetHeight);
 
 		float jumpStrength = requiredVelocity - currentVelocityY;
 
