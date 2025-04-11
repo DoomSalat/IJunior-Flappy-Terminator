@@ -9,6 +9,7 @@ public class AnimateRotationY : MonoBehaviour
 	[SerializeField][MinValue(0)] private float _speedCoefficientDown = 5;
 	[SerializeField][MinValue(0)] private float _smoothCoefficient = 10;
 	[SerializeField][MinValue(0)] private float _maxAngle = 65;
+	[SerializeField] private bool _reverse = false;
 
 	private void Update()
 	{
@@ -23,6 +24,9 @@ public class AnimateRotationY : MonoBehaviour
 		{
 			targetAngle = Mathf.Max(-_maxAngle, verticalVelocity * _speedCoefficientDown);
 		}
+
+		if (_reverse)
+			targetAngle *= -1;
 
 		transform.rotation = Quaternion.Lerp(
 			transform.rotation,

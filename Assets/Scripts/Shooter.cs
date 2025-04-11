@@ -25,19 +25,32 @@ public class Shooter : MonoBehaviour
 
 	private void OnEnable()
 	{
-		GameLive.Reseted += ReleaseAllBullets;
+		GameLive.Restarted += ReleaseAllBullets;
 	}
 
 	private void OnDisable()
 	{
-		GameLive.Reseted -= ReleaseAllBullets;
+		GameLive.Restarted -= ReleaseAllBullets;
 	}
 
 	public void Shoot()
 	{
 		var bullet = _pool.Get();
 		bullet.transform.position = transform.position;
+
+		if (transform.lossyScale.x < 0 && bullet.transform.localScale.x > 0)
+		{
+			Flip(bullet.transform);
+		}
+
 		_activeBullets.Add(bullet);
+	}
+
+	private void Flip(Transform target)
+	{
+		Vector3 scale = target.localScale;
+		scale.x *= -1;
+		target.localScale = scale;
 	}
 
 	private Bullet CreateBullet()

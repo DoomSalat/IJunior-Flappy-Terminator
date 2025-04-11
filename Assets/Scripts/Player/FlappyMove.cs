@@ -8,14 +8,16 @@ public class FlappyMove : MonoBehaviour
 
 	private Rigidbody2D _rigidbody;
 
+	public Rigidbody2D Rigidbody => _rigidbody;
+
 	private void Awake()
 	{
 		_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
-	public void FlapUp()
+	public void FlapUp(float strength = 1)
 	{
-		_rigidbody.AddForce(Vector2.up * _impulse, ForceMode2D.Impulse);
+		_rigidbody.AddForce(Vector2.up * _impulse * strength, ForceMode2D.Impulse);
 	}
 
 	public void StopMove()

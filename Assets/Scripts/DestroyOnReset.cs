@@ -4,12 +4,12 @@ public class DestroyOnReset : MonoBehaviour
 {
 	private void OnEnable()
 	{
-		GameLive.Reseted += Destroy;
+		GameLive.Restarted += Destroy;
 	}
 
 	private void OnDisable()
 	{
-		GameLive.Reseted -= Destroy;
+		GameLive.Restarted -= Destroy;
 	}
 
 	public void Destroy()

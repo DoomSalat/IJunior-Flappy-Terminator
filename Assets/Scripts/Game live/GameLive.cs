@@ -9,7 +9,7 @@ public class GameLive : MonoBehaviour
 	[SerializeField] private Player _player;
 	[SerializeField] private Transform _playerDefaultPosition;
 
-	public static event System.Action Reseted;
+	public static event System.Action Restarted;
 
 	private void Start()
 	{
@@ -30,7 +30,7 @@ public class GameLive : MonoBehaviour
 	{
 		CloseMenu();
 
-		Reseted?.Invoke();
+		Restarted?.Invoke();
 		Time.timeScale = scaleTimeDefault;
 		_player.transform.position = _playerDefaultPosition.position;
 		_player.ResetState();

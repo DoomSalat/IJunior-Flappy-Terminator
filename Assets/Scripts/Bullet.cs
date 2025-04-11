@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Bullet : MonoBehaviour, IDestroyed
 {
 	[SerializeField][MinValue(0)] private float _speed = 5;
@@ -20,7 +20,15 @@ public class Bullet : MonoBehaviour, IDestroyed
 
 	private void FixedUpdate()
 	{
-		_rigidbody.linearVelocity = transform.right * _speed;
+		_rigidbody.linearVelocity = (transform.lossyScale.x > 0 ? transform.right : -transform.right) * _speed;
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.TryGetComponent<Danger>(out var danger))
+		{
+			Destroy();
+		}
 	}
 
 	public void Initializate(Vector2 direction)

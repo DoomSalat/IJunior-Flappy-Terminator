@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7260291507186306921}
   - component: {fileID: 2102358663456102908}
   - component: {fileID: 2632873020941226159}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5481054476103343967}
   - component: {fileID: 4441552561400788906}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rotate joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6203651001342905779}
   - component: {fileID: 2798004361676243288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,8 +254,8 @@ GameObject:
   - component: {fileID: 4030846457234802250}
   - component: {fileID: 5670763256302188066}
   - component: {fileID: 5581468413172775169}
-  m_Layer: 0
-  m_Name: Bird
+  m_Layer: 6
+  m_Name: Bird Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef51f20ec69d464eb00eb419945a19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _impulse: 10
+  _impulse: 6
 --- !u!1 &7511965507839912004
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7236523838862992025}
   - component: {fileID: 3340685982866003828}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7914148527896128794}
   - component: {fileID: 6362116412767152654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 4463717099522512963}
   - component: {fileID: 8688434221811100740}
   - component: {fileID: 4257557354807608673}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bird (anim)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
