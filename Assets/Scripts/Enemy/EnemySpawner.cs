@@ -29,9 +29,8 @@ public class EnemySpawner : MonoBehaviour, IRestartListener
 		_gameLive = FindFirstObjectByType<GameLive>();
 
 		if (_gameLive != null)
-		{
 			_gameLive.RegisterListener(this);
-		}
+
 	}
 
 	private void OnDestroy()
@@ -39,9 +38,7 @@ public class EnemySpawner : MonoBehaviour, IRestartListener
 		_pool.Dispose();
 
 		if (_gameLive != null)
-		{
 			_gameLive.UnregisterListener(this);
-		}
 	}
 
 	public void GameRestart()

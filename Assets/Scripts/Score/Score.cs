@@ -17,12 +17,14 @@ public class Score : MonoBehaviour, IRestartListener
 	{
 		_gameLive = FindAnyObjectByType<GameLive>();
 
-		_gameLive.RegisterListener(this);
+		if (_gameLive != null)
+			_gameLive.RegisterListener(this);
 	}
 
 	private void OnDestroy()
 	{
-		_gameLive.UnregisterListener(this);
+		if (_gameLive != null)
+			_gameLive.UnregisterListener(this);
 	}
 
 	private void OnEnable()
