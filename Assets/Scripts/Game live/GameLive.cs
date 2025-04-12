@@ -27,15 +27,6 @@ public class GameLive : MonoBehaviour
 		_player.Died -= StopGame;
 	}
 
-	public void StartGame()
-	{
-		_mainMenu.Close();
-
-		Time.timeScale = ScaleTimeDefault;
-		_player.transform.position = _playerDefaultPosition.position;
-		_player.ResetState();
-	}
-
 	public void RegisterListener(IRestartListener listener)
 	{
 		if (_listeners.Contains(listener) == false)
