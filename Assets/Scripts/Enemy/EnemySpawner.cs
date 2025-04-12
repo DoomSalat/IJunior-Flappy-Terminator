@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour, IRestartListener
 {
 	[SerializeField] private Enemy _prefab;
 	[SerializeField] private int _poolSize = 5;
 	[SerializeField] private Transform[] _spawnPoints;
 	[SerializeField] private float _spawnDelay = 2f;
+
+	private GameLive _gameLive;
 
 	private ObjectPool<Enemy> _pool;
 	private bool _isActive;
@@ -22,23 +24,27 @@ public class EnemySpawner : MonoBehaviour
 		SpawnEnemy();
 	}
 
-	private void OnEnable()
+	private void Start()
 	{
-		GameLive.Restarted += OnGameRestarted;
-	}
+		_gameLive = FindFirstObjectByType<GameLive>();
 
-	private void OnDisable()
-	{
-		GameLive.Restarted -= OnGameRestarted;
+		if (_gameLive != null)
+		{
+			_gameLive.RegisterListener(this);
+		}
 	}
 
 	private void OnDestroy()
 	{
-		GameLive.Restarted -= OnGameRestarted;
 		_pool.Dispose();
+
+		if (_gameLive != null)
+		{
+			_gameLive.UnregisterListener(this);
+		}
 	}
 
-	private void OnGameRestarted()
+	public void GameRestart()
 	{
 		if (_currentEnemy != null)
 		{

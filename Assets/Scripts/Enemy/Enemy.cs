@@ -1,3 +1,4 @@
+using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class Enemy : MonoBehaviour
 	private void OnEnable()
 	{
 		_vision.enabled = false;
-		Invoke(nameof(EnableVision), _visionDelay);
+		StartCoroutine(DelayEnableVision());
 	}
 
 	private void Update()
@@ -26,7 +27,6 @@ public class Enemy : MonoBehaviour
 		if (CanJump())
 		{
 			float jumpStrength = CalculateJumpStrength();
-			//Debug.Log($"Jump strength: {jumpStrength}, Ceiling distance: {_vision.GetCeilingDistance()}, Predicted height: {PredictJumpHeight(jumpStrength * ImpulseForce, _flappyMove.Rigidbody.linearVelocity.y)}");
 
 			_flappyMove.FlapUp(jumpStrength);
 			_shooter.Shoot();
@@ -41,8 +41,10 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	private void EnableVision()
+	private IEnumerator DelayEnableVision()
 	{
+		yield return new WaitForSeconds(_visionDelay);
+
 		_vision.enabled = true;
 	}
 

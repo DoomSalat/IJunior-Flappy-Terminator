@@ -15,17 +15,17 @@ public class ScoreUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		NewValue(_score.Value);
+		OnChange(_score.Value);
 
-		_score.Updated += NewValue;
+		_score.Updated += OnChange;
 	}
 
 	private void OnDisable()
 	{
-		_score.Updated -= NewValue;
+		_score.Updated -= OnChange;
 	}
 
-	public void NewValue(int value)
+	public void OnChange(int value)
 	{
 		_textMeshPro.text = value.ToString();
 	}

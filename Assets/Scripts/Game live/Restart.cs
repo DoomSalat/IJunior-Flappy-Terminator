@@ -25,6 +25,6 @@ public class Restart : MonoBehaviour
 
 	private void RestartGame()
 	{
-		_gameLive.StartGame();
+		_gameLive.RestartGame();
 	}
 }

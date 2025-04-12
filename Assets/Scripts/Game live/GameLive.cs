@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameLive : MonoBehaviour
@@ -9,7 +10,12 @@ public class GameLive : MonoBehaviour
 	[SerializeField] private Player _player;
 	[SerializeField] private Transform _playerDefaultPosition;
 
-	public static event System.Action Restarted;
+	private List<IRestartListener> _listeners = new List<IRestartListener>();
+
+	private void Awake()
+	{
+		DontDestroyOnLoad(gameObject);
+	}
 
 	private void OnEnable()
 	{
@@ -23,17 +29,43 @@ public class GameLive : MonoBehaviour
 
 	public void StartGame()
 	{
-		_mainMenu.CloseMenu();
+		_mainMenu.Close();
 
-		Restarted?.Invoke();
 		Time.timeScale = ScaleTimeDefault;
 		_player.transform.position = _playerDefaultPosition.position;
 		_player.ResetState();
 	}
 
+	public void RegisterListener(IRestartListener listener)
+	{
+		if (_listeners.Contains(listener) == false)
+		{
+			_listeners.Add(listener);
+		}
+	}
+
+	public void UnregisterListener(IRestartListener listener)
+	{
+		_listeners.Remove(listener);
+	}
+
+	public void RestartGame()
+	{
+		_mainMenu.Close();
+
+		Time.timeScale = ScaleTimeDefault;
+		_player.transform.position = _playerDefaultPosition.position;
+		_player.ResetState();
+
+		foreach (var listener in _listeners)
+		{
+			listener.GameRestart();
+		}
+	}
+
 	private void StopGame()
 	{
 		Time.timeScale = 0f;
-		_mainMenu.OpenMenu();
+		_mainMenu.Open();
 	}
 }

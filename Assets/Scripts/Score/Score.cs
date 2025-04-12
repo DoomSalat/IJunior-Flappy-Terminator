@@ -1,38 +1,49 @@
 using UnityEngine;
 
-public class Score : MonoBehaviour
+public class Score : MonoBehaviour, IRestartListener
 {
 	private const int AddOne = 1;
 
 	[SerializeField] private EnemySpawner _spawner;
 
+	private GameLive _gameLive;
 	private int _value = 0;
 
 	public event System.Action<int> Updated;
 
 	public int Value => _value;
 
+	private void Start()
+	{
+		_gameLive = FindAnyObjectByType<GameLive>();
+
+		_gameLive.RegisterListener(this);
+	}
+
+	private void OnDestroy()
+	{
+		_gameLive.UnregisterListener(this);
+	}
+
 	private void OnEnable()
 	{
-		GameLive.Restarted += Reset;
 		_spawner.Killed += Add;
 	}
 
 	private void OnDisable()
 	{
-		GameLive.Restarted -= Reset;
 		_spawner.Killed -= Add;
+	}
+
+	public void GameRestart()
+	{
+		_value = 0;
+		Updated?.Invoke(_value);
 	}
 
 	private void Add()
 	{
 		_value += AddOne;
-		Updated?.Invoke(_value);
-	}
-
-	private void Reset()
-	{
-		_value = 0;
 		Updated?.Invoke(_value);
 	}
 }

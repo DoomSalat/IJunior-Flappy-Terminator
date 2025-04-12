@@ -3,11 +3,13 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections.Generic;
 
-public class Shooter : MonoBehaviour
+public class Shooter : MonoBehaviour, IRestartListener
 {
 	[SerializeField] private Bullet _bullet;
 
 	[SerializeField][MinValue(1)] private int _maxPool = 10;
+
+	private GameLive _gameLive;
 
 	private ObjectPool<Bullet> _pool;
 	private List<Bullet> _activeBullets = new List<Bullet>();
@@ -23,14 +25,32 @@ public class Shooter : MonoBehaviour
 		);
 	}
 
-	private void OnEnable()
+	private void Start()
 	{
-		GameLive.Restarted += ReleaseAllBullets;
+		_gameLive = FindFirstObjectByType<GameLive>();
+
+		if (_gameLive != null)
+		{
+			_gameLive.RegisterListener(this);
+		}
 	}
 
-	private void OnDisable()
+	private void OnDestroy()
 	{
-		GameLive.Restarted -= ReleaseAllBullets;
+		if (_gameLive != null)
+		{
+			_gameLive.UnregisterListener(this);
+		}
+	}
+
+	public void GameRestart()
+	{
+		for (int i = _activeBullets.Count - 1; i >= 0; i--)
+		{
+			_pool.Release(_activeBullets[i]);
+		}
+
+		_activeBullets.Clear();
 	}
 
 	public void Shoot()
@@ -70,15 +90,5 @@ public class Shooter : MonoBehaviour
 	{
 		_activeBullets.Remove(bullet);
 		_pool.Release(bullet);
-	}
-
-	private void ReleaseAllBullets()
-	{
-		for (int i = _activeBullets.Count - 1; i >= 0; i--)
-		{
-			_pool.Release(_activeBullets[i]);
-		}
-
-		_activeBullets.Clear();
 	}
 }

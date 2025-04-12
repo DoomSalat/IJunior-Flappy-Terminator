@@ -6,16 +6,16 @@ public class Menu : MonoBehaviour
 
 	private void Start()
 	{
-		CloseMenu();
+		Close();
 	}
 
-	public void OpenMenu()
+	public void Open()
 	{
 		_mainGroupUI.gameObject.SetActive(true);
 		_mainGroupUI.interactable = true;
 	}
 
-	public void CloseMenu()
+	public void Close()
 	{
 		_mainGroupUI.gameObject.SetActive(false);
 		_mainGroupUI.interactable = false;
