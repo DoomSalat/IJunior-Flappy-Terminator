@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections;
 
-public class EnemySpawner : MonoBehaviour, IRestartListener
+public class EnemySpawner : MonoBehaviour
 {
 	[SerializeField] private Enemy _prefab;
+	[SerializeField] private BulletSpawner _bulletSpawner;
+	[Space]
 	[SerializeField] private int _poolSize = 5;
 	[SerializeField] private Transform[] _spawnPoints;
 	[SerializeField] private float _spawnDelay = 2f;
-
-	private GameLive _gameLive;
 
 	private ObjectPool<Enemy> _pool;
 	private bool _isActive;
@@ -24,24 +24,12 @@ public class EnemySpawner : MonoBehaviour, IRestartListener
 		SpawnEnemy();
 	}
 
-	private void Start()
-	{
-		_gameLive = FindFirstObjectByType<GameLive>();
-
-		if (_gameLive != null)
-			_gameLive.RegisterListener(this);
-
-	}
-
 	private void OnDestroy()
 	{
 		_pool.Dispose();
-
-		if (_gameLive != null)
-			_gameLive.UnregisterListener(this);
 	}
 
-	public void GameRestart()
+	public void Reset()
 	{
 		if (_currentEnemy != null)
 		{
@@ -68,6 +56,8 @@ public class EnemySpawner : MonoBehaviour, IRestartListener
 	private Enemy CreateEnemy()
 	{
 		Enemy enemy = Instantiate(_prefab, _spawnPoints[0].position, Quaternion.identity);
+		enemy.Initialization(_bulletSpawner);
+
 		enemy.Died += OnEnemyDied;
 
 		return enemy;

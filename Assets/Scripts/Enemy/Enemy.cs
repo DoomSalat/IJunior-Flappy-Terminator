@@ -41,6 +41,11 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	public void Initialization(BulletSpawner bulletSpawner)
+	{
+		_shooter.Initialization(bulletSpawner);
+	}
+
 	private IEnumerator DelayEnableVision()
 	{
 		yield return new WaitForSeconds(_visionDelay);

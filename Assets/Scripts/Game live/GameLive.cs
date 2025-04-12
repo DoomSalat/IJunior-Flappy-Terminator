@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameLive : MonoBehaviour
@@ -9,13 +8,9 @@ public class GameLive : MonoBehaviour
 	[Space]
 	[SerializeField] private Player _player;
 	[SerializeField] private Transform _playerDefaultPosition;
-
-	private List<IRestartListener> _listeners = new List<IRestartListener>();
-
-	private void Awake()
-	{
-		DontDestroyOnLoad(gameObject);
-	}
+	[SerializeField] private EnemySpawner _enemySpawner;
+	[SerializeField] private Score _score;
+	[SerializeField] private BulletSpawner[] _bulletSpawners;
 
 	private void OnEnable()
 	{
@@ -27,19 +22,6 @@ public class GameLive : MonoBehaviour
 		_player.Died -= StopGame;
 	}
 
-	public void RegisterListener(IRestartListener listener)
-	{
-		if (_listeners.Contains(listener) == false)
-		{
-			_listeners.Add(listener);
-		}
-	}
-
-	public void UnregisterListener(IRestartListener listener)
-	{
-		_listeners.Remove(listener);
-	}
-
 	public void RestartGame()
 	{
 		_mainMenu.Close();
@@ -47,10 +29,12 @@ public class GameLive : MonoBehaviour
 		Time.timeScale = ScaleTimeDefault;
 		_player.transform.position = _playerDefaultPosition.position;
 		_player.ResetState();
+		_score.Reset();
+		_enemySpawner.Reset();
 
-		foreach (var listener in _listeners)
+		foreach (BulletSpawner spawner in _bulletSpawners)
 		{
-			listener.GameRestart();
+			spawner.Reset();
 		}
 	}
 
